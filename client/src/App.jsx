@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { getAllProperties } from "./services/properties";
-import { Link } from "react-router-dom";
 
 function App() {
   const [properties, setProperties] = useState([]);
@@ -19,9 +18,8 @@ function App() {
     <>
       <nav>
         <h2>Rent/Review</h2>
-        <Link to="/signup">Sign Up</Link>
-        <Link to="/signin">Sign In</Link>
       </nav>
+      <div>{JSON.stringify(properties)}</div>
     </>
   );
 }

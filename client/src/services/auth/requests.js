@@ -33,3 +33,38 @@ export const signin = async (user) => {
     console.error("Catch block of signup: ", error);
   }
 };
+
+export const signout = async (next) => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem('jwt')
+    next()
+  }
+
+  try {
+    await fetch(`${API_BASE_URL}/signout`, {
+      method: 'GET'
+    })
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const authenticate = (data, next) => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem('jwt', JSON.stringify(data))
+    next()
+  }
+}
+
+export const isAuthenticated = () => {
+  if (typeof window == "undefined") {
+    return false;
+  }
+
+  if (localStorage.getItem('jwt')) {
+    return JSON.parse(localStorage.getItem('jwt'))
+  } else {
+    return false
+  }
+}

@@ -45,35 +45,49 @@ const Signup = () => {
     }
   };
 
+  const signupForm = () => {
+    return (
+      <>
+        <form>
+          <div>
+            <input
+              type="text"
+              placeholder="Name"
+              onChange={handleChange("name")}
+              value={name}
+            />
+          </div>
+          <div>
+            <input
+              value={email}
+              type="email"
+              placeholder="Email"
+              onChange={handleChange("email")}
+            />
+          </div>
+          <div>
+            <input
+              value={password}
+              type="password"
+              placeholder="Password"
+              onChange={handleChange("password")}
+            />
+          </div>
+          <button onClick={handleSubmit}>Sign Up</button>
+        </form>
+      </>
+    );
+  };
+
   return (
     <>
-      <div>
-        {success && (
-          <span>
-            Account created! Sign In <Link to="/signin">Here</Link>
-          </span>
-        )}
-        {!success && <span>{error}</span>}
-        <input
-          type="text"
-          placeholder="Name"
-          onChange={handleChange("name")}
-          value={name}
-        />
-        <input
-          value={email}
-          type="email"
-          placeholder="Email"
-          onChange={handleChange("email")}
-        />
-        <input
-          value={password}
-          type="password"
-          placeholder="Password"
-          onChange={handleChange("password")}
-        />
-      </div>
-      <button onClick={handleSubmit}>Sign Up</button>
+      {success && (
+        <span>
+          Account created! Sign In <Link to="/signin">Here</Link>
+        </span>
+      )}
+      {!success && <span>{error}</span>}
+      {signupForm()}
     </>
   );
 };
