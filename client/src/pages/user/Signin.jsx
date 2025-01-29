@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  signin,
-  authenticate,
-  isAuthenticated,
-} from "../../services/auth/requests";
+import { signin, setJwt } from "../../services/auth/requests";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -14,15 +10,16 @@ const Signin = () => {
     password: "",
     error: "",
     loading: false,
+    redirect: false,
   });
 
-  const { email, password, error, loading } = values;
+  const { email, password, error, loading, redirect } = values;
 
   const handleChange = (field) => (event) => {
     setValues({ ...values, error: "", [field]: event.target.value });
   };
 
-  const clickSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
 
@@ -32,9 +29,10 @@ const Signin = () => {
       if (response.error) {
         setValues({ ...values, error: response.error, loading: false });
       } else {
-        authenticate(response, () => {
+        setJwt(response, () => {
           setValues({
             ...values,
+            redirect: true,
           });
         });
       }
@@ -44,7 +42,7 @@ const Signin = () => {
         ...values,
         error: "Something went wrong. Please try again later.",
       });
-      console.error("Unexpected error:", error);
+      console.log("Unexpected error:", error);
     }
   };
 
@@ -52,6 +50,7 @@ const Signin = () => {
     return (
       <form>
         <div>
+          <h3>Sign In</h3>
           <input
             onChange={handleChange("email")}
             value={email}
@@ -67,7 +66,7 @@ const Signin = () => {
             placeholder="Password"
           />
         </div>
-        <button onClick={clickSubmit} type="submit">
+        <button onClick={handleSubmit} type="submit">
           Submit
         </button>
       </form>
@@ -75,9 +74,10 @@ const Signin = () => {
   };
 
   const redirectUser = () => {
-    if (isAuthenticated()) {
+    if (redirect) {
       navigate("/");
     }
+
     return null;
   };
 

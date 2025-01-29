@@ -13,7 +13,7 @@ export const signup = async (user) => {
 
     return response.json();
   } catch (error) {
-    console.error("Catch block of signup: ", error);
+    console.log("Catch block of signup: ", error);
   }
 };
 
@@ -30,7 +30,7 @@ export const signin = async (user) => {
 
     return response.json();
   } catch (error) {
-    console.error("Catch block of signup: ", error);
+    console.log("Catch block of signup: ", error);
   }
 };
 
@@ -50,7 +50,7 @@ export const signout = async (next) => {
   }
 }
 
-export const authenticate = (data, next) => {
+export const setJwt = (data, next) => {
   if (typeof window !== "undefined") {
     localStorage.setItem('jwt', JSON.stringify(data))
     next()

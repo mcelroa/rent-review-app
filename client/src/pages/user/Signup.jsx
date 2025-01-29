@@ -41,7 +41,7 @@ const Signup = () => {
         error: "Something went wrong. Please try again later.",
         success: false,
       });
-      console.error("Unexpected error:", error); // Log the error for debugging
+      console.log("Unexpected error:", error); // Log the error for debugging
     }
   };
 
@@ -50,6 +50,7 @@ const Signup = () => {
       <>
         <form>
           <div>
+            <h3>Sign Up</h3>
             <input
               type="text"
               placeholder="Name"
@@ -73,7 +74,9 @@ const Signup = () => {
               onChange={handleChange("password")}
             />
           </div>
-          <button onClick={handleSubmit}>Sign Up</button>
+          <button type="submit" onClick={handleSubmit}>
+            Sign Up
+          </button>
         </form>
       </>
     );

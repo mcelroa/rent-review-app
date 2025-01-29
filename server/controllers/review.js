@@ -9,7 +9,7 @@ exports.reviewById = async (req, res, next, id) => {
     next();
   } catch (error) {
     return res.status(400).json({
-      err: 'Review not found'
+      error: 'Review not found'
     })
   }
 };
@@ -54,7 +54,7 @@ exports.deleteReview = async (req, res) => {
     await Review.findByIdAndDelete(req.review._id);
     res.json({ message: "Review deleted successfully" });
   } catch (err) {
-    console.error(err); // Debug unexpected errors
+    console.log(err); // Debug unexpected errors
     res.status(400).json({ error: "Failed to delete review" });
   }
 };

@@ -8,7 +8,7 @@ exports.propertyById = async (req, res, next, id) => {
     next();
   } catch (error) {
     return res.status(400).json({
-      err: 'Property not found'
+      error: 'Property not found'
     })
   }
 };
@@ -41,6 +41,7 @@ exports.createProperty = async (req, res) => {
 
   try {
     const property = new Property({ address, city, addedBy });
+    console.log(property)
     await property.save();
     res.json(property);
   } catch (err) {
@@ -64,7 +65,7 @@ exports.deleteProperty = async (req, res) => {
     await Property.findByIdAndDelete(req.property._id); // Use findByIdAndDelete
     res.json({ message: "Property deleted successfully" });
   } catch (err) {
-    console.error(err); // Debug unexpected errors
+    console.log(err); // Debug unexpected errors
     res.status(400).json({ error: "Failed to delete property" });
   }
 };
