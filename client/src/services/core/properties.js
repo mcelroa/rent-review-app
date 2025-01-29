@@ -41,3 +41,18 @@ export const createProperty = async (property, userId, token) => {
     console.log(error);
   }
 };
+
+export const searchProperties = async (query) => {
+
+  if (!query) {
+    return [];
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/properties/?search=${query}`);
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching search results:", error);
+    return [];
+  }
+};

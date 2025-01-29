@@ -15,7 +15,15 @@ exports.propertyById = async (req, res, next, id) => {
 
 exports.getAllProperties = async (req, res) => {
   try {
-    const properties = await Property.find().populate("addedBy", "name");
+
+    const searchQuery = req.query.search || ""; // Get search parameter
+
+    // Create a case-insensitive regex to match address or city
+    const searchRegex = new RegExp(searchQuery, "i");
+
+    const properties = await Property.find({
+      $or: [{ address: searchRegex }, { city: searchRegex }]
+    }).populate("addedBy", "name");
 
     res.json(properties);
   } catch (err) {

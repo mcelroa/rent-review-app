@@ -1,70 +1,41 @@
-import { useEffect, useState } from "react";
-import { getAllProperties } from "./services/core/properties";
-import { Link, useNavigate } from "react-router-dom";
-import { isAuthenticated, signout } from "./services/auth/requests";
+import { useState } from "react";
+import SearchBar from "./components/SearchBar";
+import { searchProperties } from "./services/core/properties";
+import PropertyCard from "./components/PropertyCard";
 
-function App() {
-  const navigate = useNavigate();
-
+const PropertyList = () => {
   const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [error, setError] = useState("");
 
-  useEffect(() => {
-    getAllProperties().then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setProperties(data);
-      }
-    });
-  }, []);
+  const handleSearch = async (query) => {
+    setError("");
+    setLoading(true);
+    const data = await searchProperties(query);
+    setProperties(data);
+    setLoading(false);
+    setHasSearched(true);
+
+    if (data.length < 1) {
+      setError("No properties match your search.");
+    }
+  };
 
   return (
-    <div>
-      <nav>
-        {!isAuthenticated() && (
-          <>
-            <ul>
-              <li>
-                <Link to="/signup">Sign Up</Link>
-              </li>
-              <li>
-                <Link to="/signin">Sign In</Link>
-              </li>
-            </ul>
-          </>
-        )}
-        {isAuthenticated() && (
-          <>
-            <Link
-              onClick={() => {
-                signout(() => {
-                  navigate("/");
-                });
-              }}
-            >
-              Sign Out
-            </Link>
-            <Link to="/add/property">Add Property</Link>
-          </>
-        )}
-      </nav>
-      <h1>Available Properties</h1>
-      <ul>
-        {properties.map((p, i) => (
-          <li key={i}>
-            <h3>{p.address}</h3>
-            <p>{p.city}</p>
-            <small>Added by: {p.addedBy.name}</small>
-            <div>
-              <button>
-                <Link to={`/property/${p._id}`}>Reviews</Link>
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+    <div className="p-10">
+      <div className="text-center">
+        <h2 className="text-gray-900 text-4xl font-bold mb-4">
+          Rent<span className="text-teal-600">Review</span>
+        </h2>
+      </div>
+      <SearchBar onSearch={handleSearch} />
+      {error && <p className="text-teal-600 font-semibold">{error}</p>}
+      {loading && <p className="text-teal-600 font-semibold">Loading...</p>}
+      {hasSearched &&
+        properties.map((p, i) => <PropertyCard key={i} property={p} />)}
     </div>
   );
-}
+};
 
-export default App;
+export default PropertyList;
