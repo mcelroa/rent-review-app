@@ -50,8 +50,11 @@ const Signin = () => {
     return (
       <form>
         <div>
-          <h3>Sign In</h3>
+          <h3 className="text-gray-900 font-bold text-2xl mb-2 text-center">
+            Sign In
+          </h3>
           <input
+            className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold mb-2"
             onChange={handleChange("email")}
             value={email}
             type="email"
@@ -60,14 +63,19 @@ const Signin = () => {
         </div>
         <div>
           <input
+            className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold mb-2"
             onChange={handleChange("password")}
             value={password}
             type="password"
             placeholder="Password"
           />
         </div>
-        <button onClick={handleSubmit} type="submit">
-          Submit
+        <button
+          className="w-full bg-teal-700 p-1.5 rounded-sm text-white font-semibold"
+          onClick={handleSubmit}
+          type="submit"
+        >
+          Sign In
         </button>
       </form>
     );
@@ -82,12 +90,20 @@ const Signin = () => {
   };
 
   return (
-    <>
-      {error && <div>{error}</div>}
-      {loading && <div>Loading...</div>}
+    <div className="p-8">
+      {error && (
+        <div className="text-teal-700 font-semibold mb-5 text-center">
+          {error}
+        </div>
+      )}
+      {loading && (
+        <div className="text-teal-700 font-semibold mb-5 text-center">
+          Loading...
+        </div>
+      )}
       {signinForm()}
       {redirectUser()}
-    </>
+    </div>
   );
 };
 

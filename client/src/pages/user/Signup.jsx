@@ -50,8 +50,11 @@ const Signup = () => {
       <>
         <form>
           <div>
-            <h3>Sign Up</h3>
+            <h3 className="text-gray-900 font-bold text-2xl mb-2 text-center">
+              Sign Up
+            </h3>
             <input
+              className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold mb-2"
               type="text"
               placeholder="Name"
               onChange={handleChange("name")}
@@ -60,6 +63,7 @@ const Signup = () => {
           </div>
           <div>
             <input
+              className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold mb-2"
               value={email}
               type="email"
               placeholder="Email"
@@ -68,13 +72,18 @@ const Signup = () => {
           </div>
           <div>
             <input
+              className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold mb-2"
               value={password}
               type="password"
               placeholder="Password"
               onChange={handleChange("password")}
             />
           </div>
-          <button type="submit" onClick={handleSubmit}>
+          <button
+            className="w-full bg-teal-700 p-1.5 rounded-sm text-white font-semibold"
+            type="submit"
+            onClick={handleSubmit}
+          >
             Sign Up
           </button>
         </form>
@@ -83,15 +92,25 @@ const Signup = () => {
   };
 
   return (
-    <>
+    <div className="p-8">
       {success && (
-        <span>
-          Account created! Sign In <Link to="/signin">Here</Link>
-        </span>
+        <div className="text-gray-900 font-semibold mb-5 text-center">
+          Account created! Sign In{" "}
+          <Link
+            className="text-teal-700 font-semibold mb-5 text-center"
+            to="/signin"
+          >
+            Here
+          </Link>
+        </div>
       )}
-      {!success && <span>{error}</span>}
+      {!success && (
+        <div className="text-teal-700 font-semibold mb-5 text-center">
+          {error}
+        </div>
+      )}
       {signupForm()}
-    </>
+    </div>
   );
 };
 
