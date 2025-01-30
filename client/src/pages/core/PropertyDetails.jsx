@@ -4,6 +4,7 @@ import { getSingleProperty } from "../../services/core/properties";
 import { deleteReview, getReviews } from "../../services/core/reviews";
 import { isAuthenticated } from "../../services/auth/requests";
 import ReviewCard from "../../components/ReviewCard";
+import Navbar from "../../components/Navbar";
 
 const PropertyDetails = () => {
   const { propertyId } = useParams();
@@ -61,6 +62,7 @@ const PropertyDetails = () => {
 
   return (
     <div>
+      <Navbar />
       {property && (
         <div className="p-4">
           <h1 className="text-gray-900 text-2xl font-bold">

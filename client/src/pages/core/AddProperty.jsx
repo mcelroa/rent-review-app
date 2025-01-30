@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { isAuthenticated } from "../../services/auth/requests";
 import { createProperty } from "../../services/core/properties";
+import { Link } from "react-router-dom";
+import Navbar from "../../components/Navbar";
 
 const AddProperty = () => {
   const [values, setValues] = useState({
@@ -9,6 +11,8 @@ const AddProperty = () => {
     error: "",
     success: false,
   });
+
+  const [newPropertyId, setNewPropertyId] = useState("");
 
   const { address, city, error, success } = values;
   const { user, token } = isAuthenticated();
@@ -26,6 +30,7 @@ const AddProperty = () => {
       if (response.error) {
         setValues({ ...values, error: response.error, success: false });
       } else {
+        setNewPropertyId(response._id);
         setValues({
           address: "",
           city: "",
@@ -45,25 +50,30 @@ const AddProperty = () => {
   const addPropertyForm = () => {
     return (
       <form>
+        <h3 className="text-gray-900 font-bold text-3xl mb-2">Add Property</h3>
         <div>
-          <label>Address</label>
           <input
+            className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold mb-2"
             type="text"
-            placeholder="eg. 123, Your street Name, Apartment No., etc..."
+            placeholder="Address"
             value={address}
             onChange={handleChange("address")}
           />
         </div>
         <div>
-          <label>City</label>
           <input
+            className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold"
             type="text"
-            placeholder="Dublin"
+            placeholder="City"
             value={city}
             onChange={handleChange("city")}
           />
         </div>
-        <button type="submit" onClick={handleSubmit}>
+        <button
+          className="hover:cursor-pointer bg-teal-700 text-white font-semibold text-sm rounded-sm p-1.5 mt-2 hover:bg-teal-600 mr-1"
+          type="submit"
+          onClick={handleSubmit}
+        >
           Submit
         </button>
       </form>
@@ -71,11 +81,29 @@ const AddProperty = () => {
   };
 
   return (
-    <div>
-      {success && <span>Property added successfully</span>}
-      {!success && <span>{error}</span>}
-      {addPropertyForm()}
-    </div>
+    <>
+      <Navbar showAddProperty={false} />
+      <div className="p-4">
+        {success && (
+          <div className="text-gray-900 font-semibold mb-5 text-center">
+            Property added successfully <br />
+            Add Reviews to it{" "}
+            <Link
+              to={`/property/${newPropertyId}`}
+              className="text-teal-600 underline"
+            >
+              here
+            </Link>
+          </div>
+        )}
+        {!success && (
+          <div className="text-teal-700 font-semibold mb-5 text-center">
+            {error}
+          </div>
+        )}
+        {addPropertyForm()}
+      </div>
+    </>
   );
 };
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { isAuthenticated } from "../../services/auth/requests";
 import { createReview } from "../../services/core/reviews";
 import { Link, useParams } from "react-router-dom";
+import Navbar from "../../components/Navbar";
 
 const AddReview = () => {
   const { propertyId } = useParams();
@@ -91,7 +92,7 @@ const AddReview = () => {
         </button>
         <Link
           to={`/property/${propertyId}`}
-          className="bg-gray-900 hover:bg-gray-700 p-1.5 text-white rounded-sm text-sm"
+          className="bg-gray-900 hover:bg-gray-700 p-1.5 text-white rounded-sm text-sm font-semibold"
         >
           Back to reviews
         </Link>
@@ -100,17 +101,20 @@ const AddReview = () => {
   };
 
   return (
-    <div className="p-4">
-      {AddReviewForm()}
-      {success && (
-        <span className="text-teal-700 text-xl font-semibold">
-          Review added successfully
-        </span>
-      )}
-      {!success && (
-        <span className="text-red-500 text-xl font-semibold">{error}</span>
-      )}
-    </div>
+    <>
+      <Navbar />
+      <div className="p-4">
+        {AddReviewForm()}
+        {success && (
+          <span className="text-teal-700 text-xl font-semibold">
+            Review added successfully
+          </span>
+        )}
+        {!success && (
+          <span className="text-red-500 text-xl font-semibold">{error}</span>
+        )}
+      </div>
+    </>
   );
 };
 
