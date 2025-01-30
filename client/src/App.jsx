@@ -26,12 +26,12 @@ const PropertyList = () => {
     <div className="p-10">
       <div className="text-center">
         <h2 className="text-gray-900 text-4xl font-bold mb-4">
-          Rent<span className="text-teal-600">Review</span>
+          Rent<span className="text-teal-700">Review</span>
         </h2>
       </div>
       <SearchBar onSearch={handleSearch} />
-      {error && <p className="text-teal-600 font-semibold">{error}</p>}
-      {loading && <p className="text-teal-600 font-semibold">Loading...</p>}
+      {error && <p className="text-teal-700 font-semibold">{error}</p>}
+      {loading && <p className="text-teal-700 font-semibold">Loading...</p>}
       {hasSearched &&
         properties.map((p, i) => <PropertyCard key={i} property={p} />)}
     </div>

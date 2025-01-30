@@ -68,11 +68,11 @@ const PropertyDetails = () => {
           </h1>
         </div>
       )}
-
       <div className="px-4">
+        <hr />
         <h2 className="text-2xl font-semibold">Reviews</h2>
         {loading && (
-          <p className="text-xl font-semibold text-teal-600">Loading...</p>
+          <p className="text-xl font-semibold text-teal-700">Loading...</p>
         )}
         {error && <div className="text-md text-red-500">{error}</div>}
         {reviews.length > 0 ? (
@@ -85,10 +85,16 @@ const PropertyDetails = () => {
           </p>
         )}
         <Link
-          className="bg-teal-600 hover:bg-teal-500 p-1 text-white rounded-sm text-sm"
+          className="bg-teal-700 hover:bg-teal-600 p-1.5 text-white rounded-sm text-sm mr-1"
           to={`/add/review/${propertyId}`}
         >
           Add Review
+        </Link>
+        <Link
+          className="bg-gray-900 hover:bg-gray-700 p-1.5 text-white rounded-sm text-sm"
+          to={`/`}
+        >
+          Back to search
         </Link>
       </div>
     </div>

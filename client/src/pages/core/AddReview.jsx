@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { isAuthenticated } from "../../services/auth/requests";
 import { createReview } from "../../services/core/reviews";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const AddReview = () => {
   const { propertyId } = useParams();
 
   const [values, setValues] = useState({
     comment: "",
-    rating: 0,
+    rating: null,
     error: "",
     success: false,
   });
+
+  const ratings = [1, 2, 3, 4, 5];
 
   const { comment, rating, error, success } = values;
   const { user, token } = isAuthenticated();
@@ -51,35 +53,63 @@ const AddReview = () => {
 
   const AddReviewForm = () => {
     return (
-      <form>
-        <div>
-          <label>Comment</label>
+      <form className="mb-4">
+        <h2 className="text-gray-900 font-bold text-3xl">
+          Add <span className="text-teal-700">Review</span>
+        </h2>
+        <div className="w-full">
           <textarea
+            rows={7}
+            className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold"
+            placeholder="Type review here"
             type="text"
             value={comment}
             onChange={handleChange("comment")}
           />
         </div>
-        <div>
-          <label>Rating between 1-5</label>
-          <input
-            type="number"
-            value={rating}
-            onChange={handleChange("rating")}
-          />
+        <div className="mb-2">
+          <h4 className="font-semibold">Leave a rating</h4>
+          {ratings.map((r, i) => (
+            <i
+              onClick={() => setValues({ ...values, rating: r })}
+              key={i}
+              className={`text-xl cursor-pointer ${
+                rating >= r
+                  ? "fa-solid fa-star text-teal-700" // Filled star when selected
+                  : "fa-regular fa-star text-gray-900 hover:text-teal-700" // Empty star when not selected
+              }`}
+            ></i>
+          ))}
         </div>
-        <button type="submit" onClick={handleSubmit}>
+        <hr />
+        <button
+          className="hover:cursor-pointer bg-teal-700 text-white font-semibold text-sm rounded-sm p-1.5 mt-2 hover:bg-teal-600 mr-1"
+          type="submit"
+          onClick={handleSubmit}
+        >
           Submit
         </button>
+        <Link
+          to={`/property/${propertyId}`}
+          className="bg-gray-900 hover:bg-gray-700 p-1.5 text-white rounded-sm text-sm"
+        >
+          Back to reviews
+        </Link>
       </form>
     );
   };
 
   return (
-    <div>
-      {success && <span>Review added successfully</span>}
-      {!success && <span>{error}</span>}
+    <div className="p-4">
       {AddReviewForm()}
+      {success && (
+        <span className="text-teal-700 text-xl font-semibold">
+          Review added successfully
+        </span>
+      )}
+      {!success && (
+        <span className="text-red-500 text-xl font-semibold">{error}</span>
+      )}
     </div>
   );
 };
