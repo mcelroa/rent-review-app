@@ -30,7 +30,7 @@ const AddReview = () => {
       const response = await createReview(
         { propertyId, rating, comment },
         user._id,
-        token
+        token,
       );
 
       if (response.error) {
@@ -52,67 +52,73 @@ const AddReview = () => {
     }
   };
 
-  const AddReviewForm = () => {
-    return (
-      <form className="mb-4">
-        <h2 className="text-gray-900 font-bold text-3xl">
-          Add <span className="text-teal-700">Review</span>
-        </h2>
-        <div className="w-full">
-          <textarea
-            rows={7}
-            className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold"
-            placeholder="Type review here"
-            type="text"
-            value={comment}
-            onChange={handleChange("comment")}
-          />
-        </div>
-        <div className="mb-2">
-          <h4 className="font-semibold">Leave a rating</h4>
-          {ratings.map((r, i) => (
-            <i
-              onClick={() => setValues({ ...values, rating: r })}
-              key={i}
-              className={`text-xl cursor-pointer ${
-                rating >= r
-                  ? "fa-solid fa-star text-teal-700" // Filled star when selected
-                  : "fa-regular fa-star text-gray-900 hover:text-teal-700" // Empty star when not selected
-              }`}
-            ></i>
-          ))}
-        </div>
-        <hr />
-        <button
-          className="hover:cursor-pointer bg-teal-700 text-white font-semibold text-sm rounded-sm p-1.5 mt-2 hover:bg-teal-600 mr-1"
-          type="submit"
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
-        <Link
-          to={`/property/${propertyId}`}
-          className="bg-gray-900 hover:bg-gray-700 p-1.5 text-white rounded-sm text-sm font-semibold"
-        >
-          Back to reviews
-        </Link>
-      </form>
-    );
-  };
-
   return (
     <>
       <Navbar />
-      <div className="p-4">
-        {AddReviewForm()}
-        {success && (
-          <span className="text-teal-700 text-xl font-semibold">
-            Review added successfully
-          </span>
-        )}
-        {!success && (
-          <span className="text-red-500 text-xl font-semibold">{error}</span>
-        )}
+      <div className="flex min-h-screen flex-col items-center bg-gray-100 px-4 py-8 sm:px-6 lg:px-12">
+        <div className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-md sm:p-8">
+          <h2 className="mb-4 text-2xl font-bold text-gray-900 sm:text-3xl">
+            Add <span className="text-teal-700">Review</span>
+          </h2>
+
+          {/* Review Form */}
+          <form className="space-y-4">
+            <div>
+              <textarea
+                rows={6}
+                className="w-full rounded-md border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                placeholder="Type your review here..."
+                value={comment}
+                onChange={handleChange("comment")}
+              />
+            </div>
+
+            {/* Star Rating */}
+            <div>
+              <h4 className="mb-1 text-lg font-semibold">Leave a rating</h4>
+              <div className="flex gap-1">
+                {ratings.map((r) => (
+                  <i
+                    key={r}
+                    onClick={() => setValues({ ...values, rating: r })}
+                    className={`cursor-pointer text-2xl transition-all ${
+                      rating >= r
+                        ? "fa-solid fa-star text-teal-700"
+                        : "fa-regular fa-star text-gray-500 hover:text-teal-500"
+                    }`}
+                  ></i>
+                ))}
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="mt-4 flex flex-wrap gap-2">
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                className="rounded-md bg-teal-700 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-600 sm:text-base"
+              >
+                Submit
+              </button>
+              <Link
+                to={`/property/${propertyId}`}
+                className="rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-700 sm:text-base"
+              >
+                Back to Reviews
+              </Link>
+            </div>
+          </form>
+
+          {/* Success & Error Messages */}
+          {success && (
+            <p className="mt-4 text-lg font-semibold text-teal-700">
+              Review added successfully!
+            </p>
+          )}
+          {!success && error && (
+            <p className="mt-4 text-lg font-semibold text-red-500">{error}</p>
+          )}
+        </div>
       </div>
     </>
   );

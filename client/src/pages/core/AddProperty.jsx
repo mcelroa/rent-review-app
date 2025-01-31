@@ -47,61 +47,67 @@ const AddProperty = () => {
     }
   };
 
-  const addPropertyForm = () => {
-    return (
-      <form>
-        <h3 className="text-gray-900 font-bold text-3xl mb-2">Add Property</h3>
-        <div>
-          <input
-            className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold mb-2"
-            type="text"
-            placeholder="Address"
-            value={address}
-            onChange={handleChange("address")}
-          />
-        </div>
-        <div>
-          <input
-            className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold"
-            type="text"
-            placeholder="City"
-            value={city}
-            onChange={handleChange("city")}
-          />
-        </div>
-        <button
-          className="hover:cursor-pointer bg-teal-700 text-white font-semibold text-sm rounded-sm p-1.5 mt-2 hover:bg-teal-600 mr-1"
-          type="submit"
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
-      </form>
-    );
-  };
-
   return (
     <>
       <Navbar showAddProperty={false} />
-      <div className="p-4">
-        {success && (
-          <div className="text-gray-900 font-semibold mb-5 text-center">
-            Property added successfully <br />
-            Add Reviews to it{" "}
-            <Link
-              to={`/property/${newPropertyId}`}
-              className="text-teal-600 underline"
-            >
-              here
-            </Link>
-          </div>
-        )}
-        {!success && (
-          <div className="text-teal-700 font-semibold mb-5 text-center">
-            {error}
-          </div>
-        )}
-        {addPropertyForm()}
+      <div className="flex min-h-screen flex-col items-center bg-gray-100 px-4 py-8 sm:px-6 lg:px-12">
+        <div className="w-full max-w-xl rounded-lg bg-white p-6 shadow-md sm:p-8">
+          <h3 className="mb-4 text-center text-2xl font-bold text-gray-900 sm:text-3xl">
+            Add Property
+          </h3>
+
+          {/* Success & Error Messages */}
+          {success && (
+            <div className="mb-5 text-center font-semibold text-teal-700">
+              Property added successfully! <br />
+              Add Reviews to it{" "}
+              <Link
+                to={`/property/${newPropertyId}`}
+                className="text-teal-600 underline"
+              >
+                here
+              </Link>
+            </div>
+          )}
+          {!success && error && (
+            <div className="mb-5 text-center font-semibold text-red-500">
+              {error}
+            </div>
+          )}
+
+          {/* Property Form */}
+          <form className="space-y-4">
+            <div>
+              <input
+                className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                type="text"
+                placeholder="Address"
+                value={address}
+                onChange={handleChange("address")}
+              />
+            </div>
+            <div>
+              <input
+                className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                type="text"
+                placeholder="City"
+                value={city}
+                onChange={handleChange("city")}
+              />
+            </div>
+
+            {/* Submit Button */}
+            <div className="mt-6 flex justify-center">
+              <button
+                className="rounded-md bg-teal-700 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-600 sm:text-base"
+                type="submit"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );

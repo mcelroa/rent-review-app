@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { signup } from "../../services/auth/requests";
 import { Link } from "react-router-dom";
+import Navbar from "../../components/Navbar";
 
 const Signup = () => {
   const [values, setValues] = useState({
@@ -45,72 +46,76 @@ const Signup = () => {
     }
   };
 
-  const signupForm = () => {
-    return (
-      <>
-        <form>
-          <div>
-            <h3 className="text-gray-900 font-bold text-2xl mb-2 text-center">
-              Sign Up
-            </h3>
-            <input
-              className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold mb-2"
-              type="text"
-              placeholder="Name"
-              onChange={handleChange("name")}
-              value={name}
-            />
-          </div>
-          <div>
-            <input
-              className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold mb-2"
-              value={email}
-              type="email"
-              placeholder="Email"
-              onChange={handleChange("email")}
-            />
-          </div>
-          <div>
-            <input
-              className="w-full px-4 py-2 pr-10 border border-gray-800 rounded-md font-semibold mb-2"
-              value={password}
-              type="password"
-              placeholder="Password"
-              onChange={handleChange("password")}
-            />
-          </div>
-          <button
-            className="w-full bg-teal-700 p-1.5 rounded-sm text-white font-semibold"
-            type="submit"
-            onClick={handleSubmit}
-          >
-            Sign Up
-          </button>
-        </form>
-      </>
-    );
-  };
-
   return (
-    <div className="p-8">
-      {success && (
-        <div className="text-gray-900 font-semibold mb-5 text-center">
-          Account created! Sign In{" "}
-          <Link
-            className="text-teal-700 font-semibold mb-5 text-center"
-            to="/signin"
-          >
-            Here
-          </Link>
+    <>
+      <Navbar />
+      <div className="flex min-h-screen flex-col items-center bg-gray-100 px-4 py-8 sm:px-6 lg:px-12">
+        <div className="w-full max-w-xl rounded-lg bg-white p-6 shadow-md sm:p-8">
+          <h3 className="mb-4 text-center text-2xl font-bold text-gray-900 sm:text-3xl">
+            Sign Up
+          </h3>
+
+          {/* Success & Error Messages */}
+          {success && (
+            <div className="mb-5 text-center font-semibold text-teal-700">
+              Account created! Sign In{" "}
+              <Link
+                to="/signin"
+                className="font-semibold text-teal-600 underline"
+              >
+                Here
+              </Link>
+            </div>
+          )}
+          {!success && error && (
+            <div className="mb-5 text-center font-semibold text-red-500">
+              {error}
+            </div>
+          )}
+
+          {/* Sign Up Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <input
+                className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={handleChange("name")}
+              />
+            </div>
+            <div>
+              <input
+                className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={handleChange("email")}
+              />
+            </div>
+            <div>
+              <input
+                className="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={handleChange("password")}
+              />
+            </div>
+
+            {/* Submit Button */}
+            <div className="mt-6 flex justify-center">
+              <button
+                className="rounded-md bg-teal-700 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-600 sm:text-base"
+                type="submit"
+              >
+                Sign Up
+              </button>
+            </div>
+          </form>
         </div>
-      )}
-      {!success && (
-        <div className="text-teal-700 font-semibold mb-5 text-center">
-          {error}
-        </div>
-      )}
-      {signupForm()}
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -61,43 +61,57 @@ const PropertyDetails = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-100">
       <Navbar />
+
       {property && (
-        <div className="p-4">
-          <h1 className="text-gray-900 text-2xl font-bold">
+        <div className="p-4 sm:px-6 md:px-8 lg:px-12">
+          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
             {property.address}
           </h1>
         </div>
       )}
-      <div className="px-4">
-        <hr />
-        <h2 className="text-2xl font-semibold">Reviews</h2>
+
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 md:px-8 lg:px-12">
+        <hr className="my-4 border-gray-300" />
+
+        <h2 className="text-xl font-semibold sm:text-2xl">Reviews</h2>
+
         {loading && (
-          <p className="text-xl font-semibold text-teal-700">Loading...</p>
+          <p className="text-lg font-semibold text-teal-700 sm:text-xl">
+            Loading...
+          </p>
         )}
+
         {error && <div className="text-md text-red-500">{error}</div>}
+
         {reviews.length > 0 ? (
-          reviews.map((r, i) => (
-            <ReviewCard key={i} review={r} handleDelete={handleDelete} />
-          ))
+          <div className="space-y-4">
+            {reviews.map((r, i) => (
+              <ReviewCard key={i} review={r} handleDelete={handleDelete} />
+            ))}
+          </div>
         ) : (
-          <p className="mb-3 text-gray-600">
+          <p className="mb-3 text-sm text-gray-600 sm:text-base">
             No reviews for this property yet.
           </p>
         )}
-        <Link
-          className="bg-teal-700 hover:bg-teal-600 p-1.5 text-white rounded-sm text-sm mr-1"
-          to={`/add/review/${propertyId}`}
-        >
-          Add Review
-        </Link>
-        <Link
-          className="bg-gray-900 hover:bg-gray-700 p-1.5 text-white rounded-sm text-sm"
-          to={`/`}
-        >
-          Back to search
-        </Link>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Link
+            className="rounded-md bg-teal-700 px-3 py-2 text-sm text-white hover:bg-teal-600 sm:text-base"
+            to={`/add/review/${propertyId}`}
+          >
+            Add Review
+          </Link>
+
+          <Link
+            className="rounded-md bg-gray-900 px-3 py-2 text-sm text-white hover:bg-gray-700 sm:text-base"
+            to={`/`}
+          >
+            Back to search
+          </Link>
+        </div>
       </div>
     </div>
   );
