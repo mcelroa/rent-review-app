@@ -2,9 +2,28 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken"); // generate signed token
 const { expressjwt: Jwt } = require("express-jwt");
 const { errorHandler } = require("../helpers/dbErrorHandler");
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+require("dotenv").config();
+
+// Setup email transporter
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: process.env.EMAIL_USER, // Your Gmail
+    pass: process.env.EMAIL_PASS, // App Password from Google
+  },
+});
 
 exports.signup = async (req, res) => {
   const user = new User(req.body);
+
+  const { email } = req.body;
+
+  // Generate verification token
+  const verificationToken = crypto.randomBytes(32).toString("hex");
+
+  user.verificationToken = verificationToken;
 
   try {
     const response = await user.save();
@@ -12,7 +31,19 @@ exports.signup = async (req, res) => {
     response.salt = undefined;
     response.hashed_password = undefined;
 
-    res.json({ user: response });
+    // Send verification email
+    const verificationLink = `http://localhost:5000/api/verify/${verificationToken}`;
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Verify Your Email",
+      html: `<p>Click <a href="${verificationLink}">here</a> to verify your email.</p>`,
+    });
+
+    res.status(201).json({ message: "Signup successful! Check your email to verify." });
+
+
+    // res.json({ user: response });
 
   } catch (error) {
     return res.status(400).json({
@@ -34,6 +65,9 @@ exports.signin = async (req, res) => {
         error: "User with that email does not exist. Please signup",
       });
     }
+
+    // Check if user is verified
+    if (!user.verified) return res.status(400).json({ message: "Email not verified" });
 
     // Authenticate user
     if (!user.authenticate(password)) {
