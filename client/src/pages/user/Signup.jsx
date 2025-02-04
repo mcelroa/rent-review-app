@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { signup } from "../../services/auth/requests";
-import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import { useLoading } from "../../components/LoadingContext";
+import LoadingSpinner from "../../components/Spinner";
 
 const Signup = () => {
+  const { load, showLoading, hideLoading } = useLoading();
+
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -20,6 +23,7 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    showLoading();
     try {
       const response = await signup({ name, email, password });
 
@@ -43,8 +47,14 @@ const Signup = () => {
         success: false,
       });
       console.log("Unexpected error:", error); // Log the error for debugging
+    } finally {
+      hideLoading();
     }
   };
+
+  if (load) {
+    return <LoadingSpinner />; // Show spinner while loading
+  }
 
   return (
     <>

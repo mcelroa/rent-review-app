@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { signin, setJwt } from "../../services/auth/requests";
 import Navbar from "../../components/Navbar";
+import { useLoading } from "../../components/LoadingContext";
+import LoadingSpinner from "../../components/Spinner";
 
 const Signin = () => {
   const navigate = useNavigate();
+  const { load, showLoading, hideLoading } = useLoading();
 
   const [values, setValues] = useState({
     email: "",
@@ -26,6 +29,7 @@ const Signin = () => {
 
     setValues((prev) => ({ ...prev, loading: true }));
 
+    showLoading();
     try {
       const response = await signin({ email, password });
 
@@ -47,6 +51,8 @@ const Signin = () => {
         error: "Something went wrong. Please try again later.",
         loading: false,
       }));
+    } finally {
+      hideLoading();
     }
   };
 
@@ -55,6 +61,10 @@ const Signin = () => {
       navigate("/");
     }
   }, [redirect, navigate]);
+
+  if (load) {
+    return <LoadingSpinner />; // Show spinner while loading
+  }
 
   return (
     <>

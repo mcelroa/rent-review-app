@@ -10,6 +10,7 @@ import Signup from "./pages/user/Signup";
 import Signin from "./pages/user/Signin";
 
 import EmailVerification from "./pages/core/EmailVerification";
+import ErrorPage from "./pages/core/ErrorPage";
 
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -22,6 +23,7 @@ const AppRoutes = () => {
         <Route path="/signin" element={<Signin />} />
         <Route path="/property/:propertyId" element={<PropertyDetails />} />
         <Route path="/verify-email/:userId" element={<EmailVerification />} />
+        <Route path="*" element={<ErrorPage />} />
 
         <Route
           path="/add/property"
