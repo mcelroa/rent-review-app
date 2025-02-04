@@ -9,6 +9,8 @@ import AddReview from "./pages/core/AddReview";
 import Signup from "./pages/user/Signup";
 import Signin from "./pages/user/Signin";
 
+import EmailVerification from "./pages/core/EmailVerification";
+
 import PrivateRoute from "./components/PrivateRoute";
 
 const AppRoutes = () => {
@@ -19,6 +21,7 @@ const AppRoutes = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/property/:propertyId" element={<PropertyDetails />} />
+        <Route path="/verify-email/:userId" element={<EmailVerification />} />
 
         <Route
           path="/add/property"

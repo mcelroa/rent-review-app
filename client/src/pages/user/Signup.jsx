@@ -58,13 +58,7 @@ const Signup = () => {
           {/* Success & Error Messages */}
           {success && (
             <div className="mb-5 text-center font-semibold text-teal-700">
-              Account created! Sign In{" "}
-              <Link
-                to="/signin"
-                className="font-semibold text-teal-600 underline"
-              >
-                Here
-              </Link>
+              Account created! Check your email to verify your account.
             </div>
           )}
           {!success && error && (
